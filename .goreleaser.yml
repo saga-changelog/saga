@@ -40,6 +40,19 @@ builds:
       - amd64
       - arm64
 
+  - id: saga-courier-slack-app
+    dir: couriers/saga-courier-slack-app
+    binary: saga-courier-slack-app
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
   - id: saga-courier-slack-legacy
     dir: couriers/saga-courier-slack-legacy
     binary: saga-courier-slack-legacy

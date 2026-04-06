@@ -23,5 +23,6 @@ install:
     go install .
     go install ./couriers/saga-courier-local-file
     go install ./couriers/saga-courier-local-stdout
+    go install ./couriers/saga-courier-slack-app
     go install ./couriers/saga-courier-slack-legacy
     go install ./couriers/saga-courier-basecamp-messageboard

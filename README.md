@@ -48,6 +48,7 @@ Credentials for couriers come from environment variables named `SAGA_COURIER_<NA
 ## Couriers
 
 - [`saga-courier-basecamp-messageboard`](./couriers/saga-courier-basecamp-messageboard/README.md): posts tales to a Basecamp message board
+- [`saga-courier-slack-app`](./couriers/saga-courier-slack-app/README.md): delivers tales to Slack channels via the Web API with Block Kit formatting
 - [`saga-courier-slack-legacy`](./couriers/saga-courier-slack-legacy/README.md): delivers tales to Slack channels via incoming webhooks
 - [`saga-courier-local-file`](./couriers/saga-courier-local-file/README.md): appends tales to a local file in markdown format
 - [`saga-courier-local-stdout`](./couriers/saga-courier-local-stdout/README.md): prints tales to stdout, useful for testing and local development
