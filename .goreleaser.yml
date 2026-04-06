@@ -99,10 +99,10 @@ release:
     {{ .TagBody }}
 
 changelog:
-  sort: asc
+  sort: ""
   use: git
   abbrev: 7
-  format: "{{ .ShortCommit }} {{ .Message }} ({{ .AuthorName }})"
+  format: "{{ .Commit }} {{ .Message }} ({{ .AuthorName }})"
   filters:
     exclude:
       - "^Merge "
