@@ -92,12 +92,6 @@ archives:
 checksum:
   name_template: checksums.txt
 
-release:
-  header: |-
-    {{ .TagSubject }}
-
-    {{ .TagBody }}
-
 changelog:
   sort: ""
   use: git
