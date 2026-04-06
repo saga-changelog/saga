@@ -94,12 +94,14 @@ checksum:
 
 release:
   header: |-
-    {{ .TagContents }}
+    {{ .TagSubject }}
+
+    {{ .TagBody }}
 
 changelog:
   sort: asc
   use: git
-  abbrev: -1
+  abbrev: 7
   format: "{{ .ShortCommit }} {{ .Message }} ({{ .AuthorName }})"
   filters:
     exclude:
