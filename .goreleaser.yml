@@ -68,7 +68,7 @@ checksum:
 
 release:
   header: |-
-    {{ .TagBody }}
+    {{ .TagContents }}
 
 changelog:
   sort: asc
