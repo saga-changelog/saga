@@ -20,10 +20,6 @@ Things I want to build now.
 - Improve linting, research options (golangci-lint is sloooowww) and configsets.
 - Implement github actions.
 
-### Renaming of couriers
-
-Platforms often have different ways to post, and may move to newer APIs. We're already encountering that with slack, the current implementation is based on the "incoming webhook", but to use more message markup features we should use the newer bot integration. Hence the current courier should be renamed to `saga-courier-slack-webhook` and the new one could be `saga-courier-slack-bot`. For basecamp it's actually `basecamp-messageboard` and other integrations could be `basecamp-todo` and `basecamp-campfire`, providing users with different options of integrating saga into their workflow/process/communications.
-
 ## Future Considerations
 
 Ideas discussed during brainstorming that are not in scope for the initial version but should be kept in mind for the architecture.

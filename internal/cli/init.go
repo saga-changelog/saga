@@ -57,9 +57,9 @@ const skeletonConfig = `{
     //   tone: "Technical. Reference APIs, schemas, and endpoints.",
     //   routes: [
     //     {
-    //       name: "slack",
+    //       name: "slack-legacy",
     //       courier: {
-    //         name: "slack",
+    //         name: "slack-legacy",
     //         config: {
     //           channel: "#engineering",
     //         },
@@ -74,9 +74,9 @@ const skeletonConfig = `{
     //   tone: "Friendly and clear. Accessible to non-technical readers. Focus on impact.",
     //   routes: [
     //     {
-    //       name: "basecamp",
+    //       name: "basecamp-messageboard",
     //       courier: {
-    //         name: "basecamp",
+    //         name: "basecamp-messageboard",
     //         config: {
     //           project_id: "",
     //           message_board_id: "",

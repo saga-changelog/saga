@@ -1,4 +1,4 @@
-module github.com/saga-changelog/saga/couriers/saga-courier-basecamp
+module github.com/saga-changelog/saga/couriers/saga-courier-basecamp-messageboard
 
 go 1.26.1
 

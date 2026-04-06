@@ -2,7 +2,8 @@ go 1.26.1
 
 use (
 	.
-	./couriers/saga-courier-basecamp
-	./couriers/saga-courier-slack
-	./couriers/saga-courier-stdout
+	./couriers/saga-courier-basecamp-messageboard
+	./couriers/saga-courier-local-file
+	./couriers/saga-courier-local-stdout
+	./couriers/saga-courier-slack-legacy
 )

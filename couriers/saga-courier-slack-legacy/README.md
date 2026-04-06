@@ -1,4 +1,4 @@
-# saga-courier-slack
+# saga-courier-slack-legacy
 
 Delivers tales to a Slack channel via an incoming webhook.
 
@@ -14,7 +14,7 @@ Delivers tales to a Slack channel via an incoming webhook.
 
 | Variable | Description |
 |----------|-------------|
-| `SAGA_COURIER_SLACK__WEBHOOK_URL` | Slack incoming webhook URL. Must be HTTPS and point at `hooks.slack.com/services/...`. |
+| `SAGA_COURIER_SLACK_LEGACY__WEBHOOK_URL` | Slack incoming webhook URL. Must be HTTPS and point at `hooks.slack.com/services/...`. |
 
 The courier validates the webhook URL during `validate-route`, so a typo is caught before any `tell` calls start.
 

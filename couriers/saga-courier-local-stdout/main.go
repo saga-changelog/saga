@@ -13,7 +13,7 @@ type stdoutCourier struct{}
 
 func (stdoutCourier) Info() courier.Info {
 	return courier.Info{
-		Name:        "stdout",
+		Name:        "local-stdout",
 		Description: "Prints tales to stdout for testing and development",
 		ConfigKeys: []courier.ConfigKey{
 			{
@@ -25,14 +25,14 @@ func (stdoutCourier) Info() courier.Info {
 }
 
 func (stdoutCourier) ValidateRoute(_ context.Context, _ *courier.Route) error {
-	if os.Getenv("SAGA_COURIER_STDOUT__NOTE") == "" {
-		return fmt.Errorf("SAGA_COURIER_STDOUT__NOTE is not set")
+	if os.Getenv("SAGA_COURIER_LOCAL_STDOUT__NOTE") == "" {
+		return fmt.Errorf("SAGA_COURIER_LOCAL_STDOUT__NOTE is not set")
 	}
 	return nil
 }
 
 func (stdoutCourier) Tell(_ context.Context, p *courier.Payload) error {
-	note := os.Getenv("SAGA_COURIER_STDOUT__NOTE")
+	note := os.Getenv("SAGA_COURIER_LOCAL_STDOUT__NOTE")
 	prefix := p.Route.Config["prefix"]
 
 	line := func(s string) {

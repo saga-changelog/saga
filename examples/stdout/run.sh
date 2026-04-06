@@ -20,11 +20,11 @@ mkdir -p "$BIN_DIR"
 echo "Building saga..."
 go build -o "$BIN_DIR/saga" "$REPO_ROOT"
 
-echo "Building saga-courier-stdout..."
-go build -o "$BIN_DIR/saga-courier-stdout" "$REPO_ROOT/couriers/saga-courier-stdout"
+echo "Building saga-courier-local-stdout..."
+go build -o "$BIN_DIR/saga-courier-local-stdout" "$REPO_ROOT/couriers/saga-courier-local-stdout"
 
 export PATH="$BIN_DIR:$PATH"
-export SAGA_COURIER_STDOUT__NOTE="hello from the stdout courier"
+export SAGA_COURIER_LOCAL_STDOUT__NOTE="hello from the local-stdout courier"
 SAGA="saga --dir $SAGA_DIR"
 
 echo

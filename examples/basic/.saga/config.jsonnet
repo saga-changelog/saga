@@ -9,7 +9,7 @@
         {
           name: "engineering-slack",
           courier: {
-            name: "slack",
+            name: "slack-legacy",
             config: {
               channel: "#engineering",
             },
@@ -26,7 +26,7 @@
         {
           name: "company-basecamp",
           courier: {
-            name: "basecamp",
+            name: "basecamp-messageboard",
             config: {
               project_id: "12345678",
               message_board_id: "87654321",
@@ -44,7 +44,7 @@
         {
           name: "billing-slack",
           courier: {
-            name: "slack",
+            name: "slack-legacy",
             config: {
               channel: "#finance-updates",
             },

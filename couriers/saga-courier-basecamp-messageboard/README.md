@@ -1,4 +1,4 @@
-# saga-courier-basecamp
+# saga-courier-basecamp-messageboard
 
 Delivers tales to a Basecamp message board.
 
@@ -20,10 +20,10 @@ Given a URL like `https://3.basecamp.com/ACCOUNT/buckets/PROJECT/message_boards/
 
 | Variable | Description |
 |----------|-------------|
-| `SAGA_COURIER_BASECAMP__ACCOUNT_ID` | Basecamp account ID (the number after `3.basecamp.com/` in the URL) |
-| `SAGA_COURIER_BASECAMP__CLIENT_ID` | OAuth app client ID |
-| `SAGA_COURIER_BASECAMP__CLIENT_SECRET` | OAuth app client secret |
-| `SAGA_COURIER_BASECAMP__REFRESH_TOKEN` | OAuth refresh token |
+| `SAGA_COURIER_BASECAMP_MESSAGEBOARD__ACCOUNT_ID` | Basecamp account ID (the number after `3.basecamp.com/` in the URL) |
+| `SAGA_COURIER_BASECAMP_MESSAGEBOARD__CLIENT_ID` | OAuth app client ID |
+| `SAGA_COURIER_BASECAMP_MESSAGEBOARD__CLIENT_SECRET` | OAuth app client secret |
+| `SAGA_COURIER_BASECAMP_MESSAGEBOARD__REFRESH_TOKEN` | OAuth refresh token |
 
 The courier exchanges the refresh token for a fresh access token on every invocation.
 

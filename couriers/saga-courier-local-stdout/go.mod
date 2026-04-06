@@ -1,4 +1,4 @@
-module github.com/saga-changelog/saga/couriers/saga-courier-stdout
+module github.com/saga-changelog/saga/couriers/saga-courier-local-stdout
 
 go 1.26.1
 

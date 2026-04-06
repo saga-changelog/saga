@@ -30,9 +30,9 @@ func LookupBinary(name string) (string, error) {
 // the given courier name. This prevents leaking secrets between couriers.
 //
 // The name/key boundary uses a double underscore, so a courier named
-// "stdout" sees only SAGA_COURIER_STDOUT__* vars. This disambiguates
-// couriers whose canonical name is a prefix of another (e.g. "google"
-// vs "google-chat").
+// "local-stdout" sees only SAGA_COURIER_LOCAL_STDOUT__* vars. This disambiguates
+// couriers whose canonical name is a prefix of another (e.g. "basecamp-messageboard"
+// vs "basecamp-campfire").
 func envForCourier(name string) []string {
 	prefix := "SAGA_COURIER_" + strings.ToUpper(strings.ReplaceAll(name, "-", "_")) + "__"
 	const globalPrefix = "SAGA_COURIER_"

@@ -21,6 +21,7 @@ theme-test:
 # Install saga and all couriers to $GOPATH/bin
 install:
     go install .
-    go install ./couriers/saga-courier-stdout
-    go install ./couriers/saga-courier-slack
-    go install ./couriers/saga-courier-basecamp
+    go install ./couriers/saga-courier-local-file
+    go install ./couriers/saga-courier-local-stdout
+    go install ./couriers/saga-courier-slack-legacy
+    go install ./couriers/saga-courier-basecamp-messageboard

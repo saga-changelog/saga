@@ -24,7 +24,7 @@ type slackCourier struct{}
 
 func (slackCourier) Info() courier.Info {
 	return courier.Info{
-		Name:        "slack",
+		Name:        "slack-legacy",
 		Description: "Delivers tales to Slack channels via incoming webhooks",
 		ConfigKeys: []courier.ConfigKey{
 			{
@@ -88,25 +88,25 @@ func (slackCourier) Tell(ctx context.Context, p *courier.Payload) error {
 	return nil
 }
 
-// webhookURL reads SAGA_COURIER_SLACK__WEBHOOK_URL and validates it points
+// webhookURL reads SAGA_COURIER_SLACK_LEGACY__WEBHOOK_URL and validates it points
 // at a Slack incoming webhook. Returns the raw URL string on success.
 func webhookURL() (string, error) {
-	raw := os.Getenv("SAGA_COURIER_SLACK__WEBHOOK_URL")
+	raw := os.Getenv("SAGA_COURIER_SLACK_LEGACY__WEBHOOK_URL")
 	if raw == "" {
-		return "", fmt.Errorf("SAGA_COURIER_SLACK__WEBHOOK_URL is not set")
+		return "", fmt.Errorf("SAGA_COURIER_SLACK_LEGACY__WEBHOOK_URL is not set")
 	}
 	u, err := url.Parse(raw)
 	if err != nil {
-		return "", fmt.Errorf("SAGA_COURIER_SLACK__WEBHOOK_URL is not a valid URL: %w", err)
+		return "", fmt.Errorf("SAGA_COURIER_SLACK_LEGACY__WEBHOOK_URL is not a valid URL: %w", err)
 	}
 	if u.Scheme != "https" {
-		return "", fmt.Errorf("SAGA_COURIER_SLACK__WEBHOOK_URL must use https (got %q)", u.Scheme)
+		return "", fmt.Errorf("SAGA_COURIER_SLACK_LEGACY__WEBHOOK_URL must use https (got %q)", u.Scheme)
 	}
 	if u.Host != "hooks.slack.com" {
-		return "", fmt.Errorf("SAGA_COURIER_SLACK__WEBHOOK_URL host must be hooks.slack.com (got %q)", u.Host)
+		return "", fmt.Errorf("SAGA_COURIER_SLACK_LEGACY__WEBHOOK_URL host must be hooks.slack.com (got %q)", u.Host)
 	}
 	if !strings.HasPrefix(u.Path, "/services/") {
-		return "", fmt.Errorf("SAGA_COURIER_SLACK__WEBHOOK_URL path must start with /services/ (got %q)", u.Path)
+		return "", fmt.Errorf("SAGA_COURIER_SLACK_LEGACY__WEBHOOK_URL path must start with /services/ (got %q)", u.Path)
 	}
 	return raw, nil
 }

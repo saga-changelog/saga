@@ -1,4 +1,4 @@
-module github.com/saga-changelog/saga/couriers/saga-courier-slack
+module github.com/saga-changelog/saga/couriers/saga-courier-local-file
 
 go 1.26.1
 

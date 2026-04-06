@@ -27,7 +27,7 @@ Couriers are expected to be defensive in their `ValidateRoute` implementation. T
 
 ## Courier environment isolation
 
-When saga forks a courier binary via `os/exec`, it constructs a filtered copy of the process environment (`internal/dispatch/dispatch.go:envForCourier`). All `SAGA_COURIER_*` variables are stripped except those matching the courier's own prefix. The prefix is derived as `SAGA_COURIER_<UPPER_NAME>__` where hyphens become underscores and the boundary is a **double underscore**. This prevents secret leakage between couriers and disambiguates couriers whose names share a prefix (`basecamp` vs `basecamp-campfire` → `SAGA_COURIER_BASECAMP__` vs `SAGA_COURIER_BASECAMP_CAMPFIRE__`).
+When saga forks a courier binary via `os/exec`, it constructs a filtered copy of the process environment (`internal/dispatch/dispatch.go:envForCourier`). All `SAGA_COURIER_*` variables are stripped except those matching the courier's own prefix. The prefix is derived as `SAGA_COURIER_<UPPER_NAME>__` where hyphens become underscores and the boundary is a **double underscore**. This prevents secret leakage between couriers and disambiguates couriers whose names share a prefix (`basecamp-messageboard` vs `basecamp-campfire` → `SAGA_COURIER_BASECAMP_MESSAGEBOARD__` vs `SAGA_COURIER_BASECAMP_CAMPFIRE__`).
 
 Non-`SAGA_COURIER_*` environment variables (PATH, HOME, etc.) pass through unmodified.
 
@@ -56,9 +56,9 @@ Each courier converts `TaleText` to its platform's native markup. This happens i
 
 | Courier | Output format | Bold | Link |
 |---------|--------------|------|------|
-| Slack | mrkdwn | `*text*` | `<url\|text>` |
-| Basecamp | HTML | `<strong>text</strong>` | `<a href="url">text</a>` |
-| stdout | plain text with markers | `**text**` | `[text](url)` |
+| slack-legacy | mrkdwn | `*text*` | `<url\|text>` |
+| basecamp-messageboard | HTML | `<strong>text</strong>` | `<a href="url">text</a>` |
+| local-stdout | plain text with markers | `**text**` | `[text](url)` |
 
 This separation means adding a new courier never requires touching the parser, and tightening the allowed markdown subset automatically applies to all couriers.
 
@@ -79,9 +79,9 @@ The repository is a Go workspace (`go.work`) containing four modules:
 ```
 go.work
 ├── .                                    saga CLI (main module)
-├── couriers/saga-courier-stdout         separate go.mod
-├── couriers/saga-courier-slack          separate go.mod
-└── couriers/saga-courier-basecamp       separate go.mod
+├── couriers/saga-courier-local-stdout            separate go.mod
+├── couriers/saga-courier-slack-legacy            separate go.mod
+└── couriers/saga-courier-basecamp-messageboard   separate go.mod
 ```
 
 Courier modules declare `replace github.com/saga-changelog/saga => ../..` to depend on the local `pkg/courier` package. The workspace ensures `go build ./...` at the root compiles everything, but each courier ships as an independent binary with its own dependency tree. The Basecamp courier pulls in `github.com/basecamp/basecamp-sdk/go`; that dependency does not affect the main saga binary or the other couriers.
@@ -113,7 +113,7 @@ For `tell`, saga prefixes both stdout and stderr lines with the courier name bef
       name: "engineering",
       // ...
       routes: [
-        { name: "slack", courier: { name: "slack", config: { channel: "#eng" } } },
+        { name: "slack-legacy", courier: { name: "slack-legacy", config: { channel: "#eng" } } },
       ],
     },
   ],

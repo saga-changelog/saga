@@ -20,7 +20,7 @@ type basecampCourier struct{}
 
 func (basecampCourier) Info() courier.Info {
 	return courier.Info{
-		Name:        "basecamp",
+		Name:        "basecamp-messageboard",
 		Description: "Posts tales to a Basecamp message board",
 		ConfigKeys: []courier.ConfigKey{
 			{
@@ -51,7 +51,7 @@ func (basecampCourier) Tell(ctx context.Context, p *courier.Payload) error {
 		return err
 	}
 
-	accountID := os.Getenv("SAGA_COURIER_BASECAMP__ACCOUNT_ID")
+	accountID := os.Getenv("SAGA_COURIER_BASECAMP_MESSAGEBOARD__ACCOUNT_ID")
 	boardID, err := strconv.ParseInt(p.Route.Config["message_board_id"], 10, 64)
 	if err != nil {
 		return fmt.Errorf("invalid message_board_id: %w", err)
@@ -77,10 +77,10 @@ func (basecampCourier) Tell(ctx context.Context, p *courier.Payload) error {
 
 func checkEnv() error {
 	for _, key := range []string{
-		"SAGA_COURIER_BASECAMP__REFRESH_TOKEN",
-		"SAGA_COURIER_BASECAMP__CLIENT_ID",
-		"SAGA_COURIER_BASECAMP__CLIENT_SECRET",
-		"SAGA_COURIER_BASECAMP__ACCOUNT_ID",
+		"SAGA_COURIER_BASECAMP_MESSAGEBOARD__REFRESH_TOKEN",
+		"SAGA_COURIER_BASECAMP_MESSAGEBOARD__CLIENT_ID",
+		"SAGA_COURIER_BASECAMP_MESSAGEBOARD__CLIENT_SECRET",
+		"SAGA_COURIER_BASECAMP_MESSAGEBOARD__ACCOUNT_ID",
 	} {
 		if os.Getenv(key) == "" {
 			return fmt.Errorf("%s is not set", key)
@@ -93,9 +93,9 @@ func checkEnv() error {
 func refreshAccessToken(ctx context.Context) (string, error) {
 	form := url.Values{
 		"type":          {"refresh"},
-		"client_id":     {os.Getenv("SAGA_COURIER_BASECAMP__CLIENT_ID")},
-		"client_secret": {os.Getenv("SAGA_COURIER_BASECAMP__CLIENT_SECRET")},
-		"refresh_token": {os.Getenv("SAGA_COURIER_BASECAMP__REFRESH_TOKEN")},
+		"client_id":     {os.Getenv("SAGA_COURIER_BASECAMP_MESSAGEBOARD__CLIENT_ID")},
+		"client_secret": {os.Getenv("SAGA_COURIER_BASECAMP_MESSAGEBOARD__CLIENT_SECRET")},
+		"refresh_token": {os.Getenv("SAGA_COURIER_BASECAMP_MESSAGEBOARD__REFRESH_TOKEN")},
 	}
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost,
 		"https://launchpad.37signals.com/authorization/token",

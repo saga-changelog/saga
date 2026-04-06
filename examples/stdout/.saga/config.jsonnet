@@ -9,7 +9,7 @@
         {
           name: "internal-stdout",
           courier: {
-            name: "stdout",
+            name: "local-stdout",
             config: {},
           },
         },
@@ -24,7 +24,7 @@
         {
           name: "external-stdout",
           courier: {
-            name: "stdout",
+            name: "local-stdout",
             config: {
               prefix: "PUBLIC",
             },
