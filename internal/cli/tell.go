@@ -11,6 +11,7 @@ import (
 	"github.com/saga-changelog/saga/internal/dispatch"
 	"github.com/saga-changelog/saga/internal/feat"
 	"github.com/saga-changelog/saga/internal/taletext"
+	"github.com/saga-changelog/saga/internal/theme"
 	"github.com/saga-changelog/saga/pkg/courier"
 )
 
@@ -66,7 +67,7 @@ func (cmd *TellCmd) Run() error {
 		allErrs = append(allErrs, f.Validate(slug, validAudiences)...)
 	}
 	if len(allErrs) > 0 {
-		fmt.Fprintf(os.Stderr, "Validation failed with %d error(s):\n", len(allErrs))
+		fmt.Fprintf(os.Stderr, "%s\n", theme.Error.Render(fmt.Sprintf("Validation failed with %d error(s):", len(allErrs))))
 		for _, e := range allErrs {
 			fmt.Fprintf(os.Stderr, "  %s\n", e)
 		}
@@ -128,7 +129,7 @@ func (cmd *TellCmd) Run() error {
 	}
 
 	if len(deliveries) == 0 {
-		fmt.Println("No tales to tell for the given filters.")
+		fmt.Println(theme.Faint.Render("No tales to tell for the given filters."))
 		return nil
 	}
 
@@ -139,7 +140,7 @@ func (cmd *TellCmd) Run() error {
 	}
 
 	// Validate each route's credentials and connectivity before dispatching.
-	fmt.Fprintf(os.Stderr, "Validating routes...\n")
+	fmt.Fprintf(os.Stderr, "%s\n", theme.Action.Render("Validating routes..."))
 	validated := make(map[string]bool)
 	for _, d := range deliveries {
 		if validated[d.qualifiedName] {
@@ -154,18 +155,18 @@ func (cmd *TellCmd) Run() error {
 	// Dispatch: one courier invocation per tale.
 	var failed []string
 	for _, d := range deliveries {
-		fmt.Fprintf(os.Stderr, "Telling %s...\n", d.deliveryID())
+		fmt.Fprintf(os.Stderr, "%s %s\n", theme.Action.Render("Telling"), d.deliveryID())
 		if err := dispatch.Tell(d.courierName, d.payload); err != nil {
-			fmt.Fprintf(os.Stderr, "  FAILED: %s\n", err)
+			fmt.Fprintf(os.Stderr, "  %s %s\n", theme.Error.Render("FAILED:"), err)
 			failed = append(failed, d.deliveryID())
 		}
 	}
 
 	// Report.
 	fmt.Fprintln(os.Stderr)
-	fmt.Fprintf(os.Stderr, "%d tales dispatched", len(deliveries))
+	fmt.Fprintf(os.Stderr, "%s", theme.Success.Render(fmt.Sprintf("%d tales dispatched", len(deliveries))))
 	if len(failed) > 0 {
-		fmt.Fprintf(os.Stderr, ", %d failed: %s", len(failed), strings.Join(failed, ", "))
+		fmt.Fprintf(os.Stderr, ", %s", theme.Error.Render(fmt.Sprintf("%d failed: %s", len(failed), strings.Join(failed, ", "))))
 	}
 	fmt.Fprintln(os.Stderr)
 
@@ -188,7 +189,7 @@ func (cmd *TellCmd) printDryRun(deliveries []taleDelivery) {
 		courierSet[d.courierName] = true
 	}
 
-	fmt.Printf("Chapter %s - dry run\n", cmd.Version)
+	fmt.Printf("%s %s\n", theme.Action.Render("Chapter "+cmd.Version), theme.Faint.Render("- dry run"))
 	fmt.Println()
 
 	for _, qname := range routeOrder {
@@ -202,11 +203,11 @@ func (cmd *TellCmd) printDryRun(deliveries []taleDelivery) {
 			break
 		}
 
-		fmt.Printf("  Route: %s\n", qname)
+		fmt.Printf("  Route: %s\n", theme.Emphasis.Render(qname))
 		if configHint != "" {
-			fmt.Printf("    Courier: %s → %s\n", first.courierName, configHint)
+			fmt.Printf("    Courier: %s → %s\n", theme.CourierName.Render(first.courierName), configHint)
 		} else {
-			fmt.Printf("    Courier: %s\n", first.courierName)
+			fmt.Printf("    Courier: %s\n", theme.CourierName.Render(first.courierName))
 		}
 		fmt.Printf("    Tales:\n")
 		for _, d := range group {
@@ -219,8 +220,8 @@ func (cmd *TellCmd) printDryRun(deliveries []taleDelivery) {
 		fmt.Println()
 	}
 
-	fmt.Printf("%d tales across %d routes, %d couriers\n",
-		len(deliveries), len(routeOrder), len(courierSet))
+	fmt.Println(theme.Faint.Render(fmt.Sprintf("%d tales across %d routes, %d couriers",
+		len(deliveries), len(routeOrder), len(courierSet))))
 }
 
 // gatherTales collects tales for a specific audience across all feats in

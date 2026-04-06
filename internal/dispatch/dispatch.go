@@ -131,8 +131,8 @@ func Tell(name string, p *courier.Payload) error {
 	}
 
 	styledName := theme.CourierName.Render(name)
-	styledStdoutSep := theme.StdoutSep.Render(":")
-	styledStderrSep := theme.StderrSep.Render("!")
+	styledStdoutSep := theme.StdoutSep.Render(" | ")
+	styledStderrSep := theme.StderrSep.Render(" ! ")
 
 	var wg sync.WaitGroup
 	wg.Add(2)

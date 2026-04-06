@@ -15,6 +15,7 @@ type CLI struct {
 	Tell      cli.TellCmd      `cmd:"" help:"Dispatch couriers for a chapter."`
 	Audiences cli.AudiencesCmd `cmd:"" help:"List configured audiences and routes."`
 	Couriers  cli.CouriersCmd  `cmd:"" help:"List available courier plugins."`
+	ThemeTest cli.ThemeTestCmd `cmd:"" hidden:"" help:"Display themed output for visual validation."`
 }
 
 func main() {

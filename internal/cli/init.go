@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/saga-changelog/saga/internal/git"
+	"github.com/saga-changelog/saga/internal/theme"
 )
 
 // InitCmd initializes Saga in the current git repository.
@@ -37,9 +38,9 @@ func (cmd *InitCmd) Run() error {
 		return fmt.Errorf("writing config: %w", err)
 	}
 
-	fmt.Println("Saga initialized in", root)
+	fmt.Println(theme.Success.Render("Saga initialized in " + root))
 	fmt.Println()
-	fmt.Println("Next steps:")
+	fmt.Println(theme.Emphasis.Render("Next steps:"))
 	fmt.Println("  1. Edit .saga/config.jsonnet to define your audiences and routes")
 	fmt.Println("  2. Create feat files in .saga/feats/pending/")
 	fmt.Println("  3. Run 'saga validate' to check your configuration")

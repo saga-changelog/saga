@@ -7,6 +7,7 @@ import (
 	"slices"
 
 	"github.com/saga-changelog/saga/internal/feat"
+	"github.com/saga-changelog/saga/internal/theme"
 )
 
 // PendingCmd lists pending feats.
@@ -25,13 +26,13 @@ func (cmd *PendingCmd) Run() error {
 	}
 
 	if len(feats) == 0 {
-		fmt.Println("No pending feats.")
+		fmt.Println(theme.Faint.Render("No pending feats."))
 		return nil
 	}
 
 	slugs := slices.Sorted(maps.Keys(feats))
 
-	fmt.Println("Pending feats:")
+	fmt.Println(theme.Emphasis.Render("Pending feats:"))
 	fmt.Println()
 	for _, s := range slugs {
 		f := feats[s]
@@ -44,13 +45,13 @@ func (cmd *PendingCmd) Run() error {
 			}
 		}
 
-		fmt.Printf("  %s\n", s)
+		fmt.Printf("  %s\n", theme.Emphasis.Render(s))
 		for _, t := range f.Tales {
 			fmt.Printf("    %-*s  %q\n", maxAudienceLen, t.Audience, t.Title)
 		}
 		fmt.Println()
 	}
-	fmt.Printf("%d feats pending\n", len(feats))
+	fmt.Println(theme.Faint.Render(fmt.Sprintf("%d feats pending", len(feats))))
 
 	return nil
 }

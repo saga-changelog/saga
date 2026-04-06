@@ -6,12 +6,12 @@ require (
 	charm.land/lipgloss/v2 v2.0.2
 	github.com/Masterminds/semver/v3 v3.4.0
 	github.com/alecthomas/kong v1.15.0
+	github.com/charmbracelet/colorprofile v0.4.2
 	github.com/google/go-jsonnet v0.22.0
 	github.com/yuin/goldmark v1.8.2
 )
 
 require (
-	github.com/charmbracelet/colorprofile v0.4.2 // indirect
 	github.com/charmbracelet/ultraviolet v0.0.0-20251205161215-1948445e3318 // indirect
 	github.com/charmbracelet/x/ansi v0.11.6 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect

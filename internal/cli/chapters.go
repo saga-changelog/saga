@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/saga-changelog/saga/internal/chapter"
+	"github.com/saga-changelog/saga/internal/theme"
 )
 
 // ChaptersCmd lists chapters or manages them.
@@ -30,21 +31,21 @@ func (cmd *ChaptersListCmd) Run() error {
 	}
 
 	if len(chapters) == 0 {
-		fmt.Println("No chapters.")
+		fmt.Println(theme.Faint.Render("No chapters."))
 		return nil
 	}
 
-	fmt.Println("Chapters:")
+	fmt.Println(theme.Emphasis.Render("Chapters:"))
 	fmt.Println()
 	for _, c := range chapters {
 		n, err := countFeats(filepath.Join(dir, "feats", "chapters", c.Version))
 		if err != nil {
 			return err
 		}
-		fmt.Printf("  %s  (%d feats)\n", c.Version, n)
+		fmt.Printf("  %s  %s\n", theme.Emphasis.Render(c.Version), theme.Faint.Render(fmt.Sprintf("(%d feats)", n)))
 	}
 	fmt.Println()
-	fmt.Printf("%d chapters\n", len(chapters))
+	fmt.Println(theme.Faint.Render(fmt.Sprintf("%d chapters", len(chapters))))
 
 	return nil
 }
@@ -80,7 +81,7 @@ func (cmd *ChaptersCreateCmd) Run() error {
 		return fmt.Errorf("creating chapter: %w", err)
 	}
 
-	fmt.Printf("Created chapter %s with %d feats:\n", cmd.Version, len(moved))
+	fmt.Printf("%s %s with %d feats:\n", theme.Success.Render("Created chapter"), theme.Emphasis.Render(cmd.Version), len(moved))
 	for _, s := range moved {
 		fmt.Printf("  %s\n", s)
 	}

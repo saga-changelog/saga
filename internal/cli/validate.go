@@ -10,6 +10,7 @@ import (
 	"github.com/saga-changelog/saga/internal/config"
 	"github.com/saga-changelog/saga/internal/dispatch"
 	"github.com/saga-changelog/saga/internal/feat"
+	"github.com/saga-changelog/saga/internal/theme"
 	"github.com/saga-changelog/saga/pkg/courier"
 )
 
@@ -63,14 +64,14 @@ func (cmd *ValidateCmd) Run() error {
 	allErrs = append(allErrs, validateCouriers(cfg)...)
 
 	if len(allErrs) > 0 {
-		fmt.Fprintf(os.Stderr, "Validation failed with %d error(s):\n\n", len(allErrs))
+		fmt.Fprintf(os.Stderr, "%s\n\n", theme.Error.Render(fmt.Sprintf("Validation failed with %d error(s):", len(allErrs))))
 		for _, e := range allErrs {
 			fmt.Fprintf(os.Stderr, "  %s\n", e)
 		}
 		return fmt.Errorf("validation failed")
 	}
 
-	fmt.Println("All files valid.")
+	fmt.Println(theme.Success.Render("All files valid."))
 	return nil
 }
 

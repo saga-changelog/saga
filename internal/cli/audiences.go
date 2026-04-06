@@ -5,6 +5,8 @@ import (
 	"maps"
 	"slices"
 	"strings"
+
+	"github.com/saga-changelog/saga/internal/theme"
 )
 
 // AudiencesCmd manages audiences.
@@ -22,21 +24,21 @@ func (cmd *AudiencesListCmd) Run() error {
 	}
 
 	if len(cfg.Audiences) == 0 {
-		fmt.Println("No audiences configured.")
+		fmt.Println(theme.Faint.Render("No audiences configured."))
 		return nil
 	}
 
-	fmt.Println("Audiences:")
+	fmt.Println(theme.Emphasis.Render("Audiences:"))
 	fmt.Println()
 	for _, a := range cfg.Audiences {
-		fmt.Printf("  %s\n", a.Name)
+		fmt.Printf("  %s\n", theme.Emphasis.Render(a.Name))
 		fmt.Printf("    %s\n", a.Description)
-		fmt.Printf("    interest:  %s\n", a.Interest)
-		fmt.Printf("    tone:      %s\n", a.Tone)
+		fmt.Printf("    %s  %s\n", theme.Faint.Render("interest:"), a.Interest)
+		fmt.Printf("    %s      %s\n", theme.Faint.Render("tone:"), a.Tone)
 		if len(a.Routes) > 0 {
-			fmt.Printf("    routes:\n")
+			fmt.Printf("    %s\n", theme.Faint.Render("routes:"))
 			for _, r := range a.Routes {
-				fmt.Printf("      %s  (courier: %s", r.Name, r.Courier.Name)
+				fmt.Printf("      %s  (courier: %s", r.Name, theme.CourierName.Render(r.Courier.Name))
 				if len(r.Courier.Config) > 0 {
 					fmt.Printf(", %s", formatConfig(r.Courier.Config))
 				}
@@ -45,7 +47,7 @@ func (cmd *AudiencesListCmd) Run() error {
 		}
 		fmt.Println()
 	}
-	fmt.Printf("%d audiences\n", len(cfg.Audiences))
+	fmt.Println(theme.Faint.Render(fmt.Sprintf("%d audiences", len(cfg.Audiences))))
 
 	return nil
 }
