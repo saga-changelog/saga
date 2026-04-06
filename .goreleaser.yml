@@ -96,7 +96,7 @@ changelog:
   sort: ""
   use: git
   abbrev: 7
-  format: "{{ .Commit }} {{ .Message }} ({{ .AuthorName }})"
+  format: "{{ .SHA }} {{ .Message }} ({{ .AuthorName }})"
   filters:
     exclude:
       - "^Merge "
