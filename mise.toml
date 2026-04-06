@@ -1,0 +1,8 @@
+[settings]
+not_found_auto_install = true
+experimental = true
+lockfile = true
+
+[tools]
+just = "1.48.1"
+"aqua:j178/prek" = "0.3.2"

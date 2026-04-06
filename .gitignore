@@ -1,0 +1,3 @@
+# Stray binaries from running `go build .` at the repo root.
+/saga
+/saga-courier-*

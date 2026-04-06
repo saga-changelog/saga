@@ -1,0 +1,8 @@
+go 1.26.1
+
+use (
+	.
+	./couriers/saga-courier-basecamp
+	./couriers/saga-courier-slack
+	./couriers/saga-courier-stdout
+)
