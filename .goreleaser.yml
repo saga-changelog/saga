@@ -1,0 +1,80 @@
+version: 2
+
+builds:
+  - id: saga
+    main: .
+    binary: saga
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+  - id: saga-courier-stdout
+    dir: couriers/saga-courier-stdout
+    binary: saga-courier-stdout
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+  - id: saga-courier-slack
+    dir: couriers/saga-courier-slack
+    binary: saga-courier-slack
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+  - id: saga-courier-basecamp
+    dir: couriers/saga-courier-basecamp
+    binary: saga-courier-basecamp
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - formats:
+      - tar.gz
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+    name_template: >-
+      saga_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+
+checksum:
+  name_template: checksums.txt
+
+release:
+  header: |-
+    {{ .TagBody }}
+
+changelog:
+  sort: asc
+  use: git
+  abbrev: -1
+  format: "{{ .ShortCommit }} {{ .Message }} ({{ .AuthorName }})"
+  filters:
+    exclude:
+      - "^Merge "

@@ -6,3 +6,4 @@ lockfile = true
 [tools]
 just = "1.48.1"
 "aqua:j178/prek" = "0.3.2"
+goreleaser = "2"
