@@ -1,13 +1,18 @@
 package cli
 
 import (
+	_ "embed"
 	"fmt"
 	"os"
 	"path/filepath"
 
+	"charm.land/huh/v2"
 	"github.com/saga-changelog/saga/internal/git"
 	"github.com/saga-changelog/saga/internal/theme"
 )
+
+//go:embed init-agent-instructions.md
+var agentInstructions string
 
 // InitCmd initializes Saga in the current git repository.
 type InitCmd struct{}
@@ -39,6 +44,36 @@ func (cmd *InitCmd) Run() error {
 	}
 
 	fmt.Println(theme.Success.Render("Saga initialized in " + root))
+	fmt.Println()
+
+	// Offer to append saga instructions to agent markdown files.
+	for _, name := range []string{"CLAUDE.md", "AGENTS.md"} {
+		path := filepath.Join(root, name)
+		if _, err := os.Stat(path); err != nil {
+			continue
+		}
+
+		var confirm bool
+		err := huh.NewConfirm().
+			Title(fmt.Sprintf("Add saga instructions to %s?", name)).
+			Value(&confirm).
+			Run()
+		if err != nil || !confirm {
+			continue
+		}
+
+		f, err := os.OpenFile(path, os.O_APPEND|os.O_WRONLY, 0o644)
+		if err != nil {
+			return fmt.Errorf("opening %s: %w", name, err)
+		}
+		if _, err := f.WriteString(agentInstructions); err != nil {
+			f.Close()
+			return fmt.Errorf("writing to %s: %w", name, err)
+		}
+		f.Close()
+		fmt.Printf("  Added saga instructions to %s\n", name)
+	}
+
 	fmt.Println()
 	fmt.Println(theme.Emphasis.Render("Next steps:"))
 	fmt.Println("  1. Edit .saga/config.jsonnet to define your audiences and routes")
