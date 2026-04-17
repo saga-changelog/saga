@@ -15,7 +15,7 @@ builds:
       - arm64
 
   - id: saga-courier-local-file
-    dir: couriers/saga-courier-local-file
+    main: ./couriers/saga-courier-local-file
     binary: saga-courier-local-file
     env:
       - CGO_ENABLED=0
@@ -28,7 +28,7 @@ builds:
       - arm64
 
   - id: saga-courier-local-stdout
-    dir: couriers/saga-courier-local-stdout
+    main: ./couriers/saga-courier-local-stdout
     binary: saga-courier-local-stdout
     env:
       - CGO_ENABLED=0
@@ -41,7 +41,7 @@ builds:
       - arm64
 
   - id: saga-courier-slack-app
-    dir: couriers/saga-courier-slack-app
+    main: ./couriers/saga-courier-slack-app
     binary: saga-courier-slack-app
     env:
       - CGO_ENABLED=0
@@ -54,7 +54,7 @@ builds:
       - arm64
 
   - id: saga-courier-slack-legacy
-    dir: couriers/saga-courier-slack-legacy
+    main: ./couriers/saga-courier-slack-legacy
     binary: saga-courier-slack-legacy
     env:
       - CGO_ENABLED=0
@@ -67,7 +67,7 @@ builds:
       - arm64
 
   - id: saga-courier-basecamp-messageboard
-    dir: couriers/saga-courier-basecamp-messageboard
+    main: ./couriers/saga-courier-basecamp-messageboard
     binary: saga-courier-basecamp-messageboard
     env:
       - CGO_ENABLED=0

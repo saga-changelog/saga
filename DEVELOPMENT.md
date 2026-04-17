@@ -74,17 +74,19 @@ The VM is stateless with respect to evaluation: `EvaluateAnonymousSnippet` parse
 
 ## Workspace and module layout
 
-The repository is a Go workspace (`go.work`) containing four modules:
+The repository is a single Go module. Couriers live under `couriers/` as separate `package main` directories that compile to their own binaries, but share the root `go.mod`:
 
 ```
-go.work
-├── .                                    saga CLI (main module)
-├── couriers/saga-courier-local-stdout            separate go.mod
-├── couriers/saga-courier-slack-legacy            separate go.mod
-└── couriers/saga-courier-basecamp-messageboard   separate go.mod
+go.mod
+├── .                                              saga CLI
+├── couriers/saga-courier-local-file               package main
+├── couriers/saga-courier-local-stdout             package main
+├── couriers/saga-courier-slack-app                package main
+├── couriers/saga-courier-slack-legacy             package main
+└── couriers/saga-courier-basecamp-messageboard    package main
 ```
 
-Courier modules declare `replace github.com/saga-changelog/saga => ../..` to depend on the local `pkg/courier` package. The workspace ensures `go build ./...` at the root compiles everything, but each courier ships as an independent binary with its own dependency tree. The Basecamp courier pulls in `github.com/basecamp/basecamp-sdk/go`; that dependency does not affect the main saga binary or the other couriers.
+All courier dependencies (e.g. the Basecamp SDK) are in the root `go.mod`. This means `go build ./...` compiles everything, and `go install github.com/saga-changelog/saga/couriers/saga-courier-slack-app@latest` works without per-courier module tags.
 
 `pkg/courier` is the only public Go package. Everything under `internal/` is inaccessible to courier authors or other importers.
 
