@@ -7,12 +7,14 @@
 //   - Level-2 headings (## Text)
 //   - **bold** and *italic* (plus _italic_)
 //   - Links: [label](url) and autolinks <https://...>
+//   - Inline code spans: `code`
+//   - Fenced code blocks: ```language ... ```
 //
-// Anything else (lists, code spans, code blocks, block quotes, images,
-// tables, raw HTML, thematic breaks, or headings of any other level)
-// is a parse error. The intent is to keep tale content portable across
-// Slack, Basecamp, and any future destinations without pulling a markdown
-// parser into each courier binary.
+// Anything else (lists, block quotes, images, tables, raw HTML,
+// thematic breaks, or headings of any other level) is a parse error.
+// The intent is to keep tale content portable across Slack, Basecamp,
+// and any future destinations without pulling a markdown parser into
+// each courier binary.
 //
 // # Flat inline model
 //

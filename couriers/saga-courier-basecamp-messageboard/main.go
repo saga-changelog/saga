@@ -142,6 +142,10 @@ func buildHTML(p *courier.Payload) string {
 			b.WriteString("<h2>")
 			b.WriteString(renderInlinesHTML(block.Inlines))
 			b.WriteString("</h2>\n")
+		case courier.BlockCodeBlock:
+			b.WriteString("<pre><code>")
+			b.WriteString(html.EscapeString(block.Text))
+			b.WriteString("</code></pre>\n")
 		default:
 			b.WriteString("<p>")
 			b.WriteString(renderInlinesHTML(block.Inlines))
@@ -169,6 +173,10 @@ func renderInlinesHTML(inlines []courier.Inline) string {
 			b.WriteString("<em>")
 			b.WriteString(html.EscapeString(in.Text))
 			b.WriteString("</em>")
+		case courier.InlineCode:
+			b.WriteString("<code>")
+			b.WriteString(html.EscapeString(in.Text))
+			b.WriteString("</code>")
 		case courier.InlineLink:
 			b.WriteString(`<a href="`)
 			b.WriteString(html.EscapeString(in.URL))

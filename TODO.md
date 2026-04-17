@@ -6,7 +6,6 @@ Things I want to build now.
 
 ### Markdown tales:
 
-- Support monospace (backticks).
 - Support lists.
 
 - Should tales have "read more" section? For longer texts, that are then posted differently depending on the courier? For example in slack the "read more" section could be posted in the thread?

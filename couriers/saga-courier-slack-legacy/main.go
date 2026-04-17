@@ -150,6 +150,10 @@ func renderText(text courier.TaleText) string {
 			b.WriteString("*")
 			b.WriteString(renderInlines(block.Inlines))
 			b.WriteString("*")
+		case courier.BlockCodeBlock:
+			b.WriteString("```\n")
+			b.WriteString(block.Text)
+			b.WriteString("\n```")
 		default:
 			b.WriteString(renderInlines(block.Inlines))
 		}
@@ -170,6 +174,10 @@ func renderInlines(inlines []courier.Inline) string {
 			b.WriteString("_")
 			b.WriteString(escapeMrkdwn(in.Text))
 			b.WriteString("_")
+		case courier.InlineCode:
+			b.WriteString("`")
+			b.WriteString(in.Text)
+			b.WriteString("`")
 		case courier.InlineLink:
 			// Slack link format: <url|visible text>. Neither url nor
 			// label may contain '<', '>', or '|'.

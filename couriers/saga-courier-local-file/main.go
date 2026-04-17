@@ -90,6 +90,14 @@ func renderText(text courier.TaleText) string {
 		case courier.BlockHeading:
 			b.WriteString("### ")
 			b.WriteString(renderInlines(block.Inlines))
+		case courier.BlockCodeBlock:
+			b.WriteString("```")
+			if block.Info != "" {
+				b.WriteString(block.Info)
+			}
+			b.WriteString("\n")
+			b.WriteString(block.Text)
+			b.WriteString("\n```")
 		default:
 			b.WriteString(renderInlines(block.Inlines))
 		}
@@ -110,6 +118,10 @@ func renderInlines(inlines []courier.Inline) string {
 			b.WriteString("_")
 			b.WriteString(in.Text)
 			b.WriteString("_")
+		case courier.InlineCode:
+			b.WriteString("`")
+			b.WriteString(in.Text)
+			b.WriteString("`")
 		case courier.InlineLink:
 			b.WriteString("[")
 			b.WriteString(in.Text)

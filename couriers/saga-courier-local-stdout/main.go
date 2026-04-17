@@ -66,11 +66,24 @@ func (stdoutCourier) Tell(_ context.Context, p *courier.Payload) error {
 // that mirror the source markdown (**bold**, _italic_, [text](url)).
 func renderBlock(b courier.Block) string {
 	var sb strings.Builder
-	if b.Kind == courier.BlockHeading {
+	switch b.Kind {
+	case courier.BlockHeading:
 		sb.WriteString("## ")
-	}
-	for _, in := range b.Inlines {
-		sb.WriteString(renderInline(in))
+		for _, in := range b.Inlines {
+			sb.WriteString(renderInline(in))
+		}
+	case courier.BlockCodeBlock:
+		sb.WriteString("```")
+		if b.Info != "" {
+			sb.WriteString(b.Info)
+		}
+		sb.WriteString("\n")
+		sb.WriteString(b.Text)
+		sb.WriteString("\n```")
+	default:
+		for _, in := range b.Inlines {
+			sb.WriteString(renderInline(in))
+		}
 	}
 	return sb.String()
 }
@@ -81,6 +94,8 @@ func renderInline(in courier.Inline) string {
 		return "**" + in.Text + "**"
 	case courier.InlineItalic:
 		return "_" + in.Text + "_"
+	case courier.InlineCode:
+		return "`" + in.Text + "`"
 	case courier.InlineLink:
 		return "[" + in.Text + "](" + in.URL + ")"
 	default:

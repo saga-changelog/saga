@@ -16,7 +16,15 @@ type Block struct {
 	Kind BlockKind `json:"kind"`
 
 	// Inlines is the flat list of styled text runs that make up the block.
-	Inlines []Inline `json:"inlines"`
+	// Empty for code blocks.
+	Inlines []Inline `json:"inlines,omitempty"`
+
+	// Text is the literal content of a code block. Empty for other kinds.
+	Text string `json:"text,omitempty"`
+
+	// Info is the optional info string (language) of a fenced code block.
+	// Empty for other kinds.
+	Info string `json:"info,omitempty"`
 }
 
 // BlockKind identifies the type of a Block.
@@ -28,6 +36,9 @@ const (
 	// BlockHeading is always a level-2 heading; saga only permits a
 	// single heading level in tale text.
 	BlockHeading BlockKind = "heading"
+	// BlockCodeBlock is a fenced code block. Its content is in the
+	// Block's Text field, not in Inlines.
+	BlockCodeBlock BlockKind = "code_block"
 )
 
 // Inline is a single styled text run within a Block.
@@ -56,4 +67,6 @@ const (
 	InlineItalic InlineStyle = "italic"
 	// InlineLink is a hyperlink; the Inline's URL field carries the target.
 	InlineLink InlineStyle = "link"
+	// InlineCode is an inline code span.
+	InlineCode InlineStyle = "code"
 )

@@ -2,6 +2,7 @@ package taletext
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/saga-changelog/saga/pkg/courier"
 	"github.com/yuin/goldmark"
@@ -49,6 +50,20 @@ func parseBlock(n ast.Node, src []byte) (courier.Block, error) {
 			return courier.Block{}, err
 		}
 		return courier.Block{Kind: courier.BlockHeading, Inlines: inlines}, nil
+
+	case ast.KindFencedCodeBlock:
+		cb := n.(*ast.FencedCodeBlock)
+		var content strings.Builder
+		for i := 0; i < cb.Lines().Len(); i++ {
+			seg := cb.Lines().At(i)
+			content.Write(seg.Value(src))
+		}
+		text := strings.TrimRight(content.String(), "\n")
+		info := ""
+		if cb.Info != nil {
+			info = string(cb.Info.Text(src))
+		}
+		return courier.Block{Kind: courier.BlockCodeBlock, Text: text, Info: info}, nil
 
 	default:
 		return courier.Block{}, fmt.Errorf("%sdisallowed block-level construct %q", lineHint(n, src), n.Kind().String())
@@ -125,6 +140,23 @@ func walkInlines(n ast.Node, src []byte, style courier.InlineStyle, url string, 
 			a := c.(*ast.AutoLink)
 			u := string(a.URL(src))
 			appendInline(out, courier.InlineLink, u, u)
+
+		case ast.KindCodeSpan:
+			// Code spans contain literal text segments; extract
+			// and emit as a single code-styled inline run.
+			var cb strings.Builder
+			for gc := c.FirstChild(); gc != nil; gc = gc.NextSibling() {
+				if gc.Kind() == ast.KindText {
+					t := gc.(*ast.Text)
+					cb.Write(t.Segment.Value(src))
+					if t.SoftLineBreak() || t.HardLineBreak() {
+						cb.WriteByte(' ')
+					}
+				}
+			}
+			if txt := cb.String(); txt != "" {
+				appendInline(out, courier.InlineCode, "", txt)
+			}
 
 		default:
 			return fmt.Errorf("%sdisallowed inline construct %q", lineHint(c, src), c.Kind().String())
